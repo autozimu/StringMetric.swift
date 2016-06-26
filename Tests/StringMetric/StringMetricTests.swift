@@ -19,6 +19,8 @@ class StringMetricTests: XCTestCase {
 
         XCTAssertEqual("CA".DamerauLevenshteinDistance(between: "AC"), 1)
         XCTAssertEqual("CA".DamerauLevenshteinDistance(between: "ABC"), 2)
+
+        XCTAssertEqual("specter".DamerauLevenshteinDistance(between: "spectre"), 1)
     }
 
     static var allTests = [
