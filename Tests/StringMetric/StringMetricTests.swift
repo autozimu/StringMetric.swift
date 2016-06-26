@@ -23,6 +23,7 @@ class StringMetricTests: XCTestCase {
 
     static var allTests = [
         ("testLevenshteinDistance", testLevenshteinDistance),
-        ("testDamerauLevenshteinDistance", testDamerauLevenshteinDistance)
+        ("testLevenshteinDistanceOfUnicode", testLevenshteinDistanceOfUnicode),
+        ("testDamerauLevenshteinDistance", testDamerauLevenshteinDistance),
     ]
 }

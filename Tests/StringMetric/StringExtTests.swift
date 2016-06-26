@@ -33,6 +33,6 @@ class StringExtTests: XCTestCase {
     static var allTests = [
         ("testStringCount", testStringCount),
         ("testStringSubscriptOfInt", testStringSubscriptOfInt),
-        ("testStringSubscriptOfRange", testStringSubscriptOfIntRagne)
+        ("testStringSubscriptOfRange", testStringSubscriptOfIntRagne),
     ]
 }
