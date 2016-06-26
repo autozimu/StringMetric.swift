@@ -1,2 +1,2 @@
-- other algorithms.
+- other algorithms. <https://en.wikipedia.org/wiki/String_metric>.
 - doc.
