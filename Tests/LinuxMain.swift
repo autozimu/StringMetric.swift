@@ -2,5 +2,6 @@ import XCTest
 @testable import StringMetricTestSuite
 
 XCTMain([
-     testCase(StringMetricTests.allTests),
+    testCase(StringExtTests.allTests)
+    testCase(StringMetricTests.allTests),
 ])
