@@ -63,7 +63,7 @@ extension String {
      - parameter target: target string
      - returns: Damerau-Levenshtein distance
      */
-    func DamerauLevenshteinDistance(between target: String) -> Int {
+    public func DamerauLevenshteinDistance(between target: String) -> Int {
         if self == target {
             return 0
         }
