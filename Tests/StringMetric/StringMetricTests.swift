@@ -23,6 +23,11 @@ class StringMetricTests: XCTestCase {
     }
 
     func testHammingDistance() {
+        do {
+            try _ = "".HammingDistance("YO")
+        } catch ArgumentError.Error(let _) {
+        }
+
         XCTAssertEqual("korolin".HammingDistance(between: "kathrin"), 3)
         XCTAssertEqual("karolin".HammingDistance(between: "kerstin"), 3)
         XCTAssertEqual("1011101".HammingDistance(between: "1001001"), 2)
