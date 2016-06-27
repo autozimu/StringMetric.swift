@@ -22,6 +22,13 @@ class StringMetricTests: XCTestCase {
         XCTAssertEqual("君子和而不同".DamerauLevenshteinDistance(between: "小人同而不和"), 4)
     }
 
+    func testHammingDistance() {
+        XCTAssertEqual("korolin".HammingDistance(between: "kathrin"), 3)
+        XCTAssertEqual("karolin".HammingDistance(between: "kerstin"), 3)
+        XCTAssertEqual("1011101".HammingDistance(between: "1001001"), 2)
+        XCTAssertEqual("2173896".HammingDistance(between: "2233796"), 3)
+    }
+
     static let allTests = [
         ("testLevenshteinDistance", testLevenshteinDistance),
         ("testDamerauLevenshteinDistance", testDamerauLevenshteinDistance),
