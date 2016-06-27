@@ -123,9 +123,6 @@ extension String {
         return d[self.count + 1][target.count + 1]
     }
 
-    enum ArgumentError: ErrorType {
-        case Error(msg: String)
-    }
 
     /**
      Get Hamming distance between self and target.
@@ -135,12 +132,10 @@ extension String {
      - parameter target: target string
      - returns: Hamming distance
      */
-    public func HammingDistance(between target: String) throws -> Int {
-        if self.count != target.count {
-            throw ArgumentError.Error("HammingDistance: Undefined for strings of unequal length.")
-        }
+    public func HammingDistance(between target: String) -> Int {
+        assert(self.count == target.count)
 
-        let dist = 0
+        var dist = 0
         for i in 0..<self.count {
             if self[i] != target[i] {
                 dist += 1
