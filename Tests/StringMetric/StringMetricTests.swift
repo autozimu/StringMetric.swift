@@ -23,7 +23,7 @@ class StringMetricTests: XCTestCase {
         XCTAssertEqual("specter".DamerauLevenshteinDistance(between: "spectre"), 1)
     }
 
-    static var allTests = [
+    static let allTests = [
         ("testLevenshteinDistance", testLevenshteinDistance),
         ("testLevenshteinDistanceOfUnicode", testLevenshteinDistanceOfUnicode),
         ("testDamerauLevenshteinDistance", testDamerauLevenshteinDistance),
