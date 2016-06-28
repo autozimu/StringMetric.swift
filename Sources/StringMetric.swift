@@ -127,6 +127,8 @@ extension String {
     /**
      Get Hamming distance between self and target.
 
+     Note: only applicable when string lengths are equal.
+
      Reference <https://en.wikipedia.org/wiki/Hamming_distance>.
 
      - parameter target: target string
