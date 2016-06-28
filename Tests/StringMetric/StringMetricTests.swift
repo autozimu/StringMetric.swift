@@ -2,36 +2,41 @@ import XCTest
 @testable import StringMetric
 
 class StringMetricTests: XCTestCase {
-    func testLevenshteinDistance() {
-        XCTAssertEqual("".LevenshteinDistance(between: "sitting"), 7)
-        XCTAssertEqual("kitten".LevenshteinDistance(between: ""), 6)
-        XCTAssertEqual("kitten".LevenshteinDistance(between: "sitting"), 3)
+    func testDistanceLevenshtein() {
+        XCTAssertEqual("".distanceLevenshtein(between: "sitting"), 7)
+        XCTAssertEqual("kitten".distanceLevenshtein(between: ""), 6)
+        XCTAssertEqual("kitten".distanceLevenshtein(between: "sitting"), 3)
 
-        XCTAssertEqual("君子和而不同".LevenshteinDistance(between: "小人同而不和"), 4)
+        XCTAssertEqual("君子和而不同".distanceLevenshtein(between: "小人同而不和"), 4)
     }
 
-    func testDamerauLevenshteinDistance() {
-        XCTAssertEqual("".DamerauLevenshteinDistance(between: "sitting"), 7)
-        XCTAssertEqual("kitten".DamerauLevenshteinDistance(between: ""), 6)
-        XCTAssertEqual("kitten".DamerauLevenshteinDistance(between: "sitting"), 3)
+    func testDistanceDamerauLevenshtein() {
+        XCTAssertEqual("".distanceDamerauLevenshtein(between: "sitting"), 7)
+        XCTAssertEqual("kitten".distanceDamerauLevenshtein(between: ""), 6)
+        XCTAssertEqual("kitten".distanceDamerauLevenshtein(between: "sitting"), 3)
 
-        XCTAssertEqual("CA".DamerauLevenshteinDistance(between: "AC"), 1)
-        XCTAssertEqual("specter".DamerauLevenshteinDistance(between: "spectre"), 1)
-        XCTAssertEqual("CA".DamerauLevenshteinDistance(between: "ABC"), 2)
+        XCTAssertEqual("CA".distanceDamerauLevenshtein(between: "AC"), 1)
+        XCTAssertEqual("specter".distanceDamerauLevenshtein(between: "spectre"), 1)
+        XCTAssertEqual("CA".distanceDamerauLevenshtein(between: "ABC"), 2)
 
-        XCTAssertEqual("君子和而不同".DamerauLevenshteinDistance(between: "小人同而不和"), 4)
+        XCTAssertEqual("君子和而不同".distanceDamerauLevenshtein(between: "小人同而不和"), 4)
     }
 
-    func testHammingDistance() {
-        XCTAssertEqual("karolin".HammingDistance(between: "kathrin"), 3)
-        XCTAssertEqual("karolin".HammingDistance(between: "kerstin"), 3)
-        XCTAssertEqual("1011101".HammingDistance(between: "1001001"), 2)
-        XCTAssertEqual("2173896".HammingDistance(between: "2233796"), 3)
+    func testDistanceHamming() {
+        XCTAssertEqual("karolin".distanceHamming(between: "kathrin"), 3)
+        XCTAssertEqual("karolin".distanceHamming(between: "kerstin"), 3)
+        XCTAssertEqual("1011101".distanceHamming(between: "1001001"), 2)
+        XCTAssertEqual("2173896".distanceHamming(between: "2233796"), 3)
+    }
+
+    func testDistanceMostFreqK() {
+        XCTAssertEqual("research".distanceMostFreqK(between: "seeking", K: 2, maxDistance: 10), 6)
     }
 
     static let allTests = [
-        ("testLevenshteinDistance", testLevenshteinDistance),
-        ("testDamerauLevenshteinDistance", testDamerauLevenshteinDistance),
-        ("testHammingDistance", testHammingDistance)
+        ("testDistanceLevenshtein", testDistanceLevenshtein),
+        ("testDistanceDamerauLevenshtein", testDistanceDamerauLevenshtein),
+        ("testDistanceHamming", testDistanceHamming),
+        ("testDistanceMostFreqK", testDistanceMostFreqK),
     ]
 }

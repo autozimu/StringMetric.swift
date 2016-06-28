@@ -1,4 +1,15 @@
 extension String {
+    /**
+     Get Levenshtein distance between target.
+
+     Based on <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
+
+     - parameter target: target string
+     - returns: Levenshtein distance
+     */
+    public func distance(between target: String) -> Int {
+        return distanceLevenshtein(between: target)
+    }
 
     /**
      Get Levenshtein distance between target.
@@ -8,7 +19,7 @@ extension String {
      - parameter target: target string
      - returns: Levenshtein distance
      */
-    public func LevenshteinDistance(between target: String) -> Int {
+    public func distanceLevenshtein(between target: String) -> Int {
         if self == target {
             return 0
         }
@@ -63,7 +74,7 @@ extension String {
      - parameter target: target string
      - returns: Damerau-Levenshtein distance
      */
-    public func DamerauLevenshteinDistance(between target: String) -> Int {
+    public func distanceDamerauLevenshtein(between target: String) -> Int {
         if self == target {
             return 0
         }
@@ -134,7 +145,7 @@ extension String {
      - parameter target: target string
      - returns: Hamming distance
      */
-    public func HammingDistance(between target: String) -> Int {
+    public func distanceHamming(between target: String) -> Int {
         assert(self.count == target.count)
 
         var dist = 0
@@ -145,5 +156,35 @@ extension String {
         }
 
         return dist
+    }
+
+    func MostFreqKHashing(str: String, K: Int) -> [Character: Int] {
+        var freq: [Character: Int] = [:]
+        for char in str.characters {
+            freq[char] = (freq[char] ?? 0) + 1
+        }
+
+        var KFreq: [Character: Int] = [:]
+        for (char, count) in  freq.sorted(isOrderedBefore: {$0.value > $1.value})[0..<K]{
+            KFreq[char] = count
+        }
+
+        return KFreq
+    }
+
+    func MostFreqKSimilarity(freq1: [Character: Int], freq2: [Character: Int]) -> Int {
+        var similarity = 0
+        for (char, count1) in freq1 {
+            if let count2 = freq2[char] {
+                similarity += count1 + count2
+            }
+        }
+        return similarity
+    }
+
+    public func distanceMostFreqK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
+        return maxDistance - MostFreqKSimilarity(
+            freq1: MostFreqKHashing(str: self, K: K),
+            freq2: MostFreqKHashing(str: target, K: K))
     }
 }
