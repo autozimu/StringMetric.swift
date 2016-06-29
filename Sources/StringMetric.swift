@@ -1,8 +1,8 @@
 extension String {
     /**
-     Get Levenshtein distance between target.
+     Get Levenshtein distance between target. (alias of `distanceLevenshtein`.)
 
-     Based on <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
+     Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
 
      - parameter target: target string
      - returns: Levenshtein distance
@@ -14,7 +14,7 @@ extension String {
     /**
      Get Levenshtein distance between target.
 
-     Based on <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
+     Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
 
      - parameter target: target string
      - returns: Levenshtein distance
@@ -69,7 +69,7 @@ extension String {
     /**
      Get Damerau–Levenshtein distance between target.
 
-     Based on <https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#endnote_itman#Distance_with_adjacent_transpositions>
+     Reference <https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#endnote_itman#Distance_with_adjacent_transpositions>
 
      - parameter target: target string
      - returns: Damerau-Levenshtein distance
@@ -182,6 +182,17 @@ extension String {
         return similarity
     }
 
+    /**
+     Get most frequent K distance.
+     
+     Reference <https://en.wikipedia.org/wiki/Most_frequent_k_characters>.
+     
+     - parameters:
+        - target: target string
+        - K: number of characters
+        - maxDistance: max distance (default to 10)
+     - returns: most frequent K distance
+     */
     public func distanceMostFreqK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
         return maxDistance - MostFreqKSimilarity(
             freq1: MostFreqKHashing(str: self, K: K),

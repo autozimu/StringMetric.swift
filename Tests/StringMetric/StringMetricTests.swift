@@ -30,7 +30,7 @@ class StringMetricTests: XCTestCase {
     }
 
     func testDistanceMostFreqK() {
-        XCTAssertEqual("research".distanceMostFreqK(between: "seeking", K: 2, maxDistance: 10), 6)
+        XCTAssertEqual("research".distanceMostFreqK(between: "seeking", K: 2), 6)
     }
 
     static let allTests = [
