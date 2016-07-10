@@ -18,6 +18,7 @@ class StringExtTests: XCTestCase {
         XCTAssertEqual(s[-2], "Y")
 
         XCTAssertEqual(s[s.count], nil)
+        XCTAssertEqual(s[-s.count-1], nil)
     }
 
     func testStringSubscriptOfIntRagne() {

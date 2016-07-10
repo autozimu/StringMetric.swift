@@ -12,12 +12,11 @@ extension String {
     }
     
     subscript(i: Int) -> Character? {
-        if i < self.count {
-            return self[index(i)]
-        } else {
+        if i >= count || i < -count {
             return nil
         }
         
+        return self[index(i)]
     }
     
     subscript(r: Range<Int>) -> String {
