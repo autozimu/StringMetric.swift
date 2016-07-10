@@ -1,7 +1,6 @@
 import XCTest
 @testable import StringMetric
 
-
 class StringExtTests: XCTestCase {
     func testStringCount() {
         XCTAssertEqual("".count, 0)

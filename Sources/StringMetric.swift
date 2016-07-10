@@ -67,7 +67,7 @@ extension String {
 
 
     /**
-     Get Damerau–Levenshtein distance between target.
+     Get Damerau-Levenshtein distance between target.
 
      Reference <https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#endnote_itman#Distance_with_adjacent_transpositions>
 
@@ -184,9 +184,9 @@ extension String {
 
     /**
      Get most frequent K distance.
-     
+
      Reference <https://en.wikipedia.org/wiki/Most_frequent_k_characters>.
-     
+
      - parameters:
         - target: target string
         - K: number of characters
