@@ -6,7 +6,7 @@ build:
 test: build
 	swift test
 
-doc:
+docs:
 	swift package generate-xcodeproj
 	jazzy --clean \
 		--author "Junfeng (Jeff) Li" \
@@ -14,8 +14,9 @@ doc:
 		--github_url https://github.com/autozimu/StringMetric.swift \
 		--github-file-prefix https://github.com/autozimu/StringMetric.swift/blob/master
 
-gh-pages: doc
-	gh-pages --dist docs
+gh-pages: docs
+	ghp-import -n -p $^
 
+.PHONY: clean
 clean:
 	swift build --clean
