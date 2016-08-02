@@ -19,5 +19,6 @@ gh-pages: docs
 
 clean:
 	swift build --clean
+	rm docs
 
 .PHONY: build test docs gh-pages clean
