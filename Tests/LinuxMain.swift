@@ -1,7 +1,8 @@
 import XCTest
-@testable import StringMetricTestSuite
+import StringMetricTestSuite
 
-XCTMain([
-    testCase(StringExtTests.allTests),
-    testCase(StringMetricTests.allTests),
-])
+var tests = [XCTestCaseEntry]()
+
+tests += StringMetricTestSuite.allTests
+
+XCTMain(tests)
