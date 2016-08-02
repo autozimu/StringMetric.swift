@@ -17,6 +17,7 @@ docs:
 gh-pages: docs
 	ghp-import -n -p $^
 
-.PHONY: clean
 clean:
 	swift build --clean
+
+.PHONY: build test docs gh-pages clean
