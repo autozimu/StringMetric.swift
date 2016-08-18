@@ -165,7 +165,7 @@ extension String {
         }
 
         var KFreq: [Character: Int] = [:]
-        for (char, count) in  freq.sorted(isOrderedBefore: {$0.value > $1.value})[0..<K]{
+        for (char, count) in  freq.sorted(by: {$0.value > $1.value})[0..<K]{
             KFreq[char] = count
         }
 

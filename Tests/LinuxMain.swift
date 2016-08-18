@@ -1,8 +1,8 @@
 import XCTest
-import StringMetricTestSuite
+import StringMetricTests
 
 var tests = [XCTestCaseEntry]()
 
-tests += StringMetricTestSuite.allTests
+tests += StringMetricTests.allTests
 
 XCTMain(tests)
