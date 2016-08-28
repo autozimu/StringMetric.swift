@@ -15,12 +15,16 @@ Currently, following functions are implemented,
 For [Swift Package Manager](https://github.com/apple/swift-package-manager)
 users, add this module as dependency in `Package.swift`,
 
-    .Package(url: "https://github.com/autozimu/StringMetric.swift.git", majorVersion: 0)
+```swift
+.Package(url: "https://github.com/autozimu/StringMetric.swift.git", majorVersion: 0)
+```
 
 ## Example
 
-    "kitten".distance(between: "sitting")    // => 3
-    "君子和而不同".distance(between: "小人同而不和")    // => 4
+```swift
+"kitten".distance(between: "sitting")    // => 3
+"君子和而不同".distance(between: "小人同而不和")    // => 4
+```
 
 ## Documentation
 <https://autozimu.github.io/StringMetric.swift/>
