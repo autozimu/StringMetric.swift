@@ -1,3 +1,2 @@
 - other algorithms. <https://en.wikipedia.org/wiki/String_metric>.
 - put each algorithm into separate file.
-- Jaro-Winkler distance. <https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>

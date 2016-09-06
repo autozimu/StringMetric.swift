@@ -198,4 +198,79 @@ extension String {
             freq1: MostFreqKHashing(str: self, K: K),
             freq2: MostFreqKHashing(str: target, K: K))
     }
+
+
+    /**
+    Get Jaro-Winkler distance.
+
+    <https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>
+    - parameter target: target string
+    - returns: Jaro-Winkler distance
+    */
+    public func distanceJaroWinkler(between target: String) -> Double {
+        if self.count == 0 && target.count == 0 {
+            return 1.0
+        }
+
+        let matchingWindowSize = max(self.count, target.count) / 2 - 1
+        var selfFlags = Array(repeating: false, count: self.count)
+        var targetFlags = Array(repeating: false, count: target.count)
+
+        // Count matching characters.
+        var m: Double = 0
+        for i in 0..<self.count {
+            let left = max(0, i - matchingWindowSize)
+            let right = min(target.count - 1, i + matchingWindowSize)
+
+            for j in left...right {
+                // Already has a match, or does not match
+                if targetFlags[j] || self[i] != target[j] {
+                    continue;
+                }
+
+                m += 1
+                selfFlags[i] = true
+                targetFlags[j] = true
+                break
+            }
+        }
+
+        if m == 0.0 {
+            return 0.0
+        }
+
+        // Count transposition.
+        var t: Double = 0
+        var k = 0
+        for i in 0..<self.count {
+            if (selfFlags[i] == false) {
+                continue
+            }
+            while (targetFlags[k] == false) {
+                k += 1
+            }
+            if (self[i] != target[k]) {
+                t += 1
+            }
+            k += 1
+        }
+        t /= 2.0
+
+        // Count common prefix.
+        var l: Double = 0
+        for i in 0..<4 {
+            if self[i] == target[i] {
+                l += 1
+            } else {
+                break
+            }
+        }
+
+        let dj = (m / Double(self.count) + m / Double(target.count) + (m - t) / m) / 3
+
+        let p = 0.1
+        let dw = dj + l * p * (1 - dj)
+
+        return dw;
+    }
 }

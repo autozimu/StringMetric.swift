@@ -33,10 +33,21 @@ class StringMetricTests: XCTestCase {
         XCTAssertEqual("research".distanceMostFreqK(between: "seeking", K: 2), 6)
     }
 
+    func testDistanceJoraWinkler() {
+        XCTAssertEqual("".distanceJaroWinkler(between: ""), 1.0)
+        XCTAssertEqual("".distanceJaroWinkler(between: "Yo"), 0.0)
+        XCTAssertEqual("search".distanceJaroWinkler(between: "find"), 0.0)
+        XCTAssertEqual("search".distanceJaroWinkler(between: "search"), 1.0)
+        XCTAssertEqualWithAccuracy("MARTHA".distanceJaroWinkler(between: "MARHTA"), 0.961, accuracy: 0.001)
+        XCTAssertEqualWithAccuracy("DWAYNE".distanceJaroWinkler(between: "DUANE"), 0.84, accuracy: 0.001)
+        XCTAssertEqualWithAccuracy("DIXON".distanceJaroWinkler(between: "DICKSONX"), 0.814, accuracy: 0.001)
+    }
+
     static let allTests = [
         ("testDistanceLevenshtein", testDistanceLevenshtein),
         ("testDistanceDamerauLevenshtein", testDistanceDamerauLevenshtein),
         ("testDistanceHamming", testDistanceHamming),
         ("testDistanceMostFreqK", testDistanceMostFreqK),
+        ("testDistanceJoraWinkler", testDistanceJoraWinkler),
     ]
 }
