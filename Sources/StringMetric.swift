@@ -203,6 +203,9 @@ extension String {
     /**
     Get Jaro-Winkler distance.
 
+    (Score is normalized such that 0 equates to no similarity and 1 is an
+    exact match.)
+
     <https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>
     - parameter target: target string
     - returns: Jaro-Winkler distance
