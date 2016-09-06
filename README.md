@@ -9,6 +9,7 @@ Currently, following functions are implemented,
 - `distanceDamerauLevenshtein`: [Damerau-Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
 - `distanceHamming`: [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance)
 - `distanceMostFreqK`: [Most frequent k characters](https://en.wikipedia.org/wiki/Most_frequent_k_characters)
+- `distanceJaroWinkler`: [Jaro-Winkler distance](https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance)
 
 ## Usage
 

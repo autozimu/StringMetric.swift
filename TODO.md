@@ -1,2 +1,1 @@
 - other algorithms. <https://en.wikipedia.org/wiki/String_metric>.
-- put each algorithm into separate file.
