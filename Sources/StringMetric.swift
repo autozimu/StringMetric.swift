@@ -207,6 +207,7 @@ extension String {
     exact match.)
 
     <https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>
+
     - parameter target: target string
     - returns: Jaro-Winkler distance
     */
