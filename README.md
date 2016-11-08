@@ -4,7 +4,7 @@
 [String metric](https://en.wikipedia.org/wiki/String_metric) functions implemented in Swift.
 
 Currently, following functions are implemented,
-- `distance`: alias of `distanceLevenshtein`
+- `distance`: alias of `distanceJaroWinkler`
 - `distanceLevenshtein`: [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance)
 - `distanceDamerauLevenshtein`: [Damerau-Levenshtein distance](https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance)
 - `distanceHamming`: [Hamming distance](https://en.wikipedia.org/wiki/Hamming_distance)
@@ -23,8 +23,8 @@ users, add this module as dependency in `Package.swift`,
 ## Example
 
 ```swift
-"kitten".distance(between: "sitting")    // => 3
-"君子和而不同".distance(between: "小人同而不和")    // => 4
+"kitten".distance(between: "sitting")    // => 0.746
+"君子和而不同".distance(between: "小人同而不和")    // => 0.555
 ```
 
 ## Documentation

@@ -1,14 +1,12 @@
 extension String {
     /**
-     Get Levenshtein distance between target. (alias of `distanceLevenshtein`.)
-
-     Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
+     Get distance between target. (alias of `distanceJaroWinkler`.)
 
      - parameter target: target string
      - returns: Levenshtein distance
      */
-    public func distance(between target: String) -> Int {
-        return distanceLevenshtein(between: target)
+    public func distance(between target: String) -> Double {
+        return distanceJaroWinkler(between: target)
     }
 
     /**
