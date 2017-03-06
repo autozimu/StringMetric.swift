@@ -224,16 +224,18 @@ extension String {
             let left = max(0, i - matchingWindowSize)
             let right = min(target.count - 1, i + matchingWindowSize)
 
-            for j in left...right {
-                // Already has a match, or does not match
-                if targetFlags[j] || self[i] != target[j] {
-                    continue;
-                }
+            if left <= right {
+                for j in left...right {
+                    // Already has a match, or does not match
+                    if targetFlags[j] || self[i] != target[j] {
+                        continue;
+                    }
 
-                m += 1
-                selfFlags[i] = true
-                targetFlags[j] = true
-                break
+                    m += 1
+                    selfFlags[i] = true
+                    targetFlags[j] = true
+                    break
+                }
             }
         }
 
