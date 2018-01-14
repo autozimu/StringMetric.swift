@@ -14,4 +14,8 @@ extension String {
 
         return self[index(i)]
     }
+
+    subscript(r: Range<Int>) -> String {
+        return self[index(r.lowerBound)..<index(r.upperBound)]
+    }
 }
