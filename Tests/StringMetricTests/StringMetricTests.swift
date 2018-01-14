@@ -38,11 +38,11 @@ class StringMetricTests: XCTestCase {
         XCTAssertEqual("".distanceJaroWinkler(between: "Yo"), 0.0)
         XCTAssertEqual("search".distanceJaroWinkler(between: "find"), 0.0)
         XCTAssertEqual("search".distanceJaroWinkler(between: "search"), 1.0)
-        XCTAssertEqualWithAccuracy("MARTHA".distanceJaroWinkler(between: "MARHTA"), 0.961, accuracy: 0.001)
-        XCTAssertEqualWithAccuracy("DWAYNE".distanceJaroWinkler(between: "DUANE"), 0.84, accuracy: 0.001)
-        XCTAssertEqualWithAccuracy("DIXON".distanceJaroWinkler(between: "DICKSONX"), 0.814, accuracy: 0.001)
-        XCTAssertEqualWithAccuracy("kitten".distanceJaroWinkler(between: "sitting"), 0.746, accuracy: 0.001)
-        XCTAssertEqualWithAccuracy("君子和而不同".distanceJaroWinkler(between: "小人同而不和"), 0.555, accuracy: 0.001)
+        XCTAssertEqual("MARTHA".distanceJaroWinkler(between: "MARHTA"), 0.961, accuracy: 0.001)
+        XCTAssertEqual("DWAYNE".distanceJaroWinkler(between: "DUANE"), 0.84, accuracy: 0.001)
+        XCTAssertEqual("DIXON".distanceJaroWinkler(between: "DICKSONX"), 0.814, accuracy: 0.001)
+        XCTAssertEqual("kitten".distanceJaroWinkler(between: "sitting"), 0.746, accuracy: 0.001)
+        XCTAssertEqual("君子和而不同".distanceJaroWinkler(between: "小人同而不和"), 0.555, accuracy: 0.001)
     }
 
     static let allTests = [

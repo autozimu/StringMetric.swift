@@ -47,7 +47,7 @@ extension String {
             // Use formula to fill rest of the row.
             for j in 0..<target.count {
                 let cost = self[j] == target[j] ? 0 : 1
-                v1[j + 1] = min(
+                v1[j + 1] = Swift.min(
                     v1[j] + 1,
                     v0[j + 1] + 1,
                     v0[j] + cost
@@ -118,7 +118,7 @@ extension String {
                 let targetIdx = j - l - 1
                 let transposition = d[k - 1][l - 1] + selfIdx + 1 + targetIdx
 
-                d[i][j] = min(
+                d[i][j] = Swift.min(
                     substition,
                     injection,
                     deletion,
@@ -158,7 +158,7 @@ extension String {
 
     func MostFreqKHashing(str: String, K: Int) -> [Character: Int] {
         var freq: [Character: Int] = [:]
-        for char in str.characters {
+        for char in str {
             freq[char] = (freq[char] ?? 0) + 1
         }
 
