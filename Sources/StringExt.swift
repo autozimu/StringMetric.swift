@@ -1,8 +1,4 @@
 extension String {
-    var count: Int {
-        return self.characters.count
-    }
-
     func index(_ i: Int) -> String.CharacterView.Index {
         if i >= 0 {
             return self.index(self.startIndex, offsetBy: i)
@@ -17,9 +13,5 @@ extension String {
         }
 
         return self[index(i)]
-    }
-
-    subscript(r: Range<Int>) -> String {
-        return self[index(r.lowerBound)..<index(r.upperBound)]
     }
 }
