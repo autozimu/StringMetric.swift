@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: swift
+    steps:
+      - checkout
+      - run: swift build
+      - run: swift test

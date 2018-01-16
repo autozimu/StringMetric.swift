@@ -1,5 +1,5 @@
 # StringMetric.swift
-[![Build Status](https://travis-ci.org/autozimu/StringMetric.swift.svg?branch=master)](https://travis-ci.org/autozimu/StringMetric.swift)
+[![CircleCI](https://circleci.com/gh/autozimu/StringMetric.swift.svg?style=svg)](https://circleci.com/gh/autozimu/StringMetric.swift)
 
 [String metric](https://en.wikipedia.org/wiki/String_metric) functions implemented in Swift.
 
