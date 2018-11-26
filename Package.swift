@@ -5,6 +5,6 @@ let package = Package(
     name: "StringMetric",
     targets: [
         .target(name: "StringMetric", path: "Sources"),
-        .testTarget(name: "Tests", dependencies: ["StringMetric"], path: "Tests")
+        .testTarget(name: "StringMetricTests", dependencies: ["StringMetric"], path: "Tests/StringMetricTests")
     ]
 )
