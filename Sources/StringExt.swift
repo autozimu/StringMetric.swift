@@ -1,5 +1,5 @@
 extension String {
-    func index(_ i: Int) -> String.CharacterView.Index {
+    func index(_ i: Int) -> String.Index {
         if i >= 0 {
             return self.index(self.startIndex, offsetBy: i)
         } else {
@@ -16,6 +16,6 @@ extension String {
     }
 
     subscript(r: Range<Int>) -> String {
-        return self[index(r.lowerBound)..<index(r.upperBound)]
+        return String(self[index(r.lowerBound)..<index(r.upperBound)])
     }
 }
