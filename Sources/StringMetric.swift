@@ -3,7 +3,7 @@ extension String {
      Get distance between target. (alias of `distanceJaroWinkler`.)
 
      - parameter target: target string
-     - returns: Levenshtein distance
+     - returns: Jaro-Winkler distance
      */
     public func distance(between target: String) -> Double {
         return distanceJaroWinkler(between: target)
