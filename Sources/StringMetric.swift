@@ -46,7 +46,7 @@ extension String {
 
             // Use formula to fill rest of the row.
             for j in 0..<target.count {
-                let cost = self[j] == target[j] ? 0 : 1
+                let cost = self[i] == target[j] ? 0 : 1
                 v1[j + 1] = Swift.min(
                     v1[j] + 1,
                     v0[j + 1] + 1,

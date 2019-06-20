@@ -6,6 +6,7 @@ class StringMetricTests: XCTestCase {
         XCTAssertEqual("".distanceLevenshtein(between: "sitting"), 7)
         XCTAssertEqual("kitten".distanceLevenshtein(between: ""), 6)
         XCTAssertEqual("kitten".distanceLevenshtein(between: "sitting"), 3)
+        XCTAssertEqual("saturday".distanceLevenshtein(between: "sunday"), 3)
 
         XCTAssertEqual("君子和而不同".distanceLevenshtein(between: "小人同而不和"), 4)
     }
