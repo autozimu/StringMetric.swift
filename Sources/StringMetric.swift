@@ -212,19 +212,22 @@ extension String {
     - returns: Jaro-Winkler distance
     */
     public func distanceJaroWinkler(between target: String) -> Double {
-        if self.count == 0 && target.count == 0 {
+        let selfCount = self.count
+        let targetCount = target.count
+
+        if selfCount == 0 && targetCount == 0 {
             return 1.0
         }
 
-        let matchingWindowSize = max(self.count, target.count) / 2 - 1
-        var selfFlags = Array(repeating: false, count: self.count)
-        var targetFlags = Array(repeating: false, count: target.count)
+        let matchingWindowSize = max(selfCount, targetCount) / 2 - 1
+        var selfFlags = Array(repeating: false, count: selfCount)
+        var targetFlags = Array(repeating: false, count: targetCount)
 
         // Count matching characters.
-        var m: Double = 0
-        for i in 0..<self.count {
+        var matchingCharactersCount: Double = 0
+        for i in 0..<selfCount {
             let left = max(0, i - matchingWindowSize)
-            let right = min(target.count - 1, i + matchingWindowSize)
+            let right = min(targetCount - 1, i + matchingWindowSize)
 
             if left <= right {
                 for j in left...right {
@@ -233,7 +236,7 @@ extension String {
                         continue;
                     }
 
-                    m += 1
+                    matchingCharactersCount += 1
                     selfFlags[i] = true
                     targetFlags[j] = true
                     break
@@ -241,14 +244,14 @@ extension String {
             }
         }
 
-        if m == 0.0 {
+        if matchingCharactersCount == 0.0 {
             return 0.0
         }
 
         // Count transposition.
-        var t: Double = 0
+        var transpositionsCount: Double = 0
         var k = 0
-        for i in 0..<self.count {
+        for i in 0..<selfCount {
             if (selfFlags[i] == false) {
                 continue
             }
@@ -256,20 +259,20 @@ extension String {
                 k += 1
             }
             if (self[i] != target[k]) {
-                t += 1
+                transpositionsCount += 1
             }
             k += 1
         }
-        t /= 2.0
+        transpositionsCount /= 2.0
 
         // Count common prefix (up to a maximum of 4 characters)
-        let l = min(max(Double(self.commonPrefix(with: target).count), 0), 4)
+        let commonPrefixCount = min(max(Double(self.commonPrefix(with: target).count), 0), 4)
 
-        let dj = (m / Double(self.count) + m / Double(target.count) + (m - t) / m) / 3
+        let jaroSimilarity = (matchingCharactersCount / Double(selfCount) + matchingCharactersCount / Double(targetCount) + (matchingCharactersCount - transpositionsCount) / matchingCharactersCount) / 3
 
-        let p = 0.1
-        let dw = dj + l * p * (1 - dj)
+        // Default is 0.1, should never exceed 0.25 (otherwise similarity score could exceed 1.0)
+        let commonPrefixScalingFactor = 0.1
 
-        return dw;
+        return jaroSimilarity + commonPrefixCount * commonPrefixScalingFactor * (1 - jaroSimilarity)
     }
 }
