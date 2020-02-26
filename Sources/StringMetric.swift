@@ -20,34 +20,37 @@ extension String {
      - returns: Levenshtein distance
      */
     public func distanceLevenshtein(between target: String) -> Int {
+        let selfCount = self.count
+        let targetCount = target.count
+
         if self == target {
             return 0
         }
-        if self.count == 0 {
-            return target.count
+        if selfCount == 0 {
+            return targetCount
         }
-        if target.count == 0 {
-            return self.count
+        if targetCount == 0 {
+            return selfCount
         }
 
         // The previous row of distances
-        var v0 = [Int](repeating: 0, count: target.count + 1)
+        var v0 = [Int](repeating: 0, count: targetCount + 1)
         // Current row of distances.
-        var v1 = [Int](repeating: 0, count: target.count + 1)
+        var v1 = [Int](repeating: 0, count: targetCount + 1)
         // Initialize v0.
         // Edit distance for empty self.
         for i in 0..<v0.count {
             v0[i] = i
         }
 
-        for i in 0..<self.count {
+        for i in 0..<selfCount {
             // Calculate v1 (current row distances) from previous row v0
 
             // Edit distance is delete (i + 1) chars from self to match empty t.
             v1[0] = i + 1
 
             // Use formula to fill rest of the row.
-            for j in 0..<target.count {
+            for j in 0..<targetCount {
                 let cost = self[i] == target[j] ? 0 : 1
                 v1[j + 1] = Swift.min(
                     v1[j] + 1,
@@ -62,7 +65,7 @@ extension String {
             }
         }
 
-        return v1[target.count]
+        return v1[targetCount]
     }
 
 
@@ -75,35 +78,38 @@ extension String {
      - returns: Damerau-Levenshtein distance
      */
     public func distanceDamerauLevenshtein(between target: String) -> Int {
+        let selfCount = self.count
+        let targetCount = target.count
+
         if self == target {
             return 0
         }
-        if self.count == 0 {
-            return target.count
+        if selfCount == 0 {
+            return targetCount
         }
-        if target.count == 0 {
-            return self.count
+        if targetCount == 0 {
+            return selfCount
         }
 
         var da: [Character: Int] = [:]
 
-        var d = Array(repeating: Array(repeating: 0, count: target.count + 2), count: self.count + 2)
+        var d = Array(repeating: Array(repeating: 0, count: targetCount + 2), count: selfCount + 2)
 
-        let maxdist = self.count + target.count
+        let maxdist = selfCount + targetCount
         d[0][0] = maxdist
-        for i in 1...self.count + 1 {
+        for i in 1...selfCount + 1 {
             d[i][0] = maxdist
             d[i][1] = i - 1
         }
-        for j in 1...target.count + 1 {
+        for j in 1...targetCount + 1 {
             d[0][j] = maxdist
             d[1][j] = j - 1
         }
 
-        for i in 2...self.count + 1 {
+        for i in 2...selfCount + 1 {
             var db = 1
 
-            for j in 2...target.count + 1 {
+            for j in 2...targetCount + 1 {
                 let k = da[target[j - 2]!] ?? 1
                 let l = db
 
@@ -131,7 +137,7 @@ extension String {
             da[self[i - 2]!] = i
         }
 
-        return d[self.count + 1][target.count + 1]
+        return d[selfCount + 1][targetCount + 1]
     }
 
 
@@ -146,10 +152,13 @@ extension String {
      - returns: Hamming distance
      */
     public func distanceHamming(between target: String) -> Int {
-        assert(self.count == target.count)
+        let selfCount = self.count
+        let targetCount = target.count
+
+        assert(selfCount == targetCount)
 
         var dist = 0
-        for i in 0..<self.count {
+        for i in 0..<selfCount {
             if self[i] != target[i] {
                 dist += 1
             }
