@@ -1,3 +1,5 @@
+import Foundation
+
 extension String {
     /**
      Get distance between target. (alias of `distanceJaroWinkler`.)
@@ -260,15 +262,8 @@ extension String {
         }
         t /= 2.0
 
-        // Count common prefix.
-        var l: Double = 0
-        for i in 0..<4 {
-            if self[i] == target[i] {
-                l += 1
-            } else {
-                break
-            }
-        }
+        // Count common prefix (up to a maximum of 4 characters)
+        let l = min(max(Double(self.commonPrefix(with: target).count), 0), 4)
 
         let dj = (m / Double(self.count) + m / Double(target.count) + (m - t) / m) / 3
 
