@@ -20,7 +20,7 @@ class StringExtTests: XCTestCase {
         XCTAssertEqual(s[-s.count-1], nil)
     }
 
-    func testStringSubscriptOfIntRagne() {
+    func testStringSubscriptOfIntRange() {
         let s = "YO"
 
         XCTAssertEqual(s[0..<2], "YO")
@@ -33,6 +33,6 @@ class StringExtTests: XCTestCase {
     static let allTests = [
         ("testStringCount", testStringCount),
         ("testStringSubscriptOfInt", testStringSubscriptOfInt),
-        ("testStringSubscriptOfRange", testStringSubscriptOfIntRagne),
+        ("testStringSubscriptOfRange", testStringSubscriptOfIntRange),
     ]
 }
