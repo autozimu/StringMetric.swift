@@ -242,14 +242,16 @@ extension String {
 
         // Count matching characters and transpositions.
         for (i, stringOneChar) in stringOne.enumerated() {
-            for j in max(0, i - matchingDistance)..<min(stringTwoCount, i + matchingDistance) {
-                if stringOneChar == stringTwo[j] {
-                    matchingCharactersCount += 1
-                    if previousPosition != -1 && j < previousPosition {
-                        transpositionsCount += 1
+            for (j, stringTwoChar) in stringTwo.enumerated() {
+                if max(0, i - matchingDistance)..<min(stringTwoCount, i + matchingDistance) ~= j {
+                    if stringOneChar == stringTwoChar {
+                        matchingCharactersCount += 1
+                        if previousPosition != -1 && j < previousPosition {
+                            transpositionsCount += 1
+                        }
+                        previousPosition = j
+                        break
                     }
-                    previousPosition = j
-                    break
                 }
             }
         }
