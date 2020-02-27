@@ -50,7 +50,7 @@ extension String {
             v1[0] = i + 1
 
             // Use formula to fill rest of the row.
-            for (j, targetCharacter) in self.enumerated() {
+            for (j, targetCharacter) in target.enumerated() {
                 let cost = selfCharacter == targetCharacter ? 0 : 1
                 v1[j + 1] = Swift.min(
                     v1[j] + 1,
