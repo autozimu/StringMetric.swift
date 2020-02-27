@@ -43,15 +43,15 @@ extension String {
             v0[i] = i
         }
 
-        for i in 0..<selfCount {
+        for (i, selfCharacter) in self.enumerated() {
             // Calculate v1 (current row distances) from previous row v0
 
             // Edit distance is delete (i + 1) chars from self to match empty t.
             v1[0] = i + 1
 
             // Use formula to fill rest of the row.
-            for j in 0..<targetCount {
-                let cost = self[i] == target[j] ? 0 : 1
+            for (j, targetCharacter) in self.enumerated() {
+                let cost = selfCharacter == targetCharacter ? 0 : 1
                 v1[j + 1] = Swift.min(
                     v1[j] + 1,
                     v0[j + 1] + 1,
@@ -158,8 +158,8 @@ extension String {
         assert(selfCount == targetCount)
 
         var dist = 0
-        for i in 0..<selfCount {
-            if self[i] != target[i] {
+        for (i, selfCharacter) in self.enumerated() {
+            if selfCharacter != target[i] {
                 dist += 1
             }
         }
