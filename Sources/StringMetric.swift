@@ -241,9 +241,9 @@ extension String {
         var previousPosition = -1
 
         // Count matching characters and transpositions.
-        for i in 0..<stringOneCount {
+        for (i, stringOneChar) in stringOne.enumerated() {
             for j in max(0, i - matchingDistance)..<min(stringTwoCount, i + matchingDistance) {
-                if stringOne[i] == stringTwo[j] {
+                if stringOneChar == stringTwo[j] {
                     matchingCharactersCount += 1
                     if previousPosition != -1 && j < previousPosition {
                         transpositionsCount += 1
