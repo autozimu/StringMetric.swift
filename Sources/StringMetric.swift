@@ -152,19 +152,9 @@ extension String {
      - returns: Hamming distance
      */
     public func distanceHamming(between target: String) -> Int {
-        let selfCount = self.count
-        let targetCount = target.count
+        assert(self.count == target.count)
 
-        assert(selfCount == targetCount)
-
-        var dist = 0
-        for (i, selfCharacter) in self.enumerated() {
-            if selfCharacter != target[i] {
-                dist += 1
-            }
-        }
-
-        return dist
+        return zip(self, target).filter { $0 != $1 }.count
     }
 
     func MostFreqKHashing(str: String, K: Int) -> [Character: Int] {
