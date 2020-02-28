@@ -158,13 +158,22 @@ extension String {
     }
 
     func MostFreqKHashing(str: String, K: Int) -> [Character: Int] {
+        // If `str` is shorter than `K` characters, use `str.count`
+        let clampedK = min(K, str.count)
         var freq: [Character: Int] = [:]
         for char in str {
             freq[char] = (freq[char] ?? 0) + 1
         }
 
         var KFreq: [Character: Int] = [:]
-        for (char, count) in  freq.sorted(by: {$0.value > $1.value})[0..<K]{
+        let sortedFreqs = freq.sorted { (charFreq1, charFreq2) -> Bool in
+            // If frequencies are equal, sort against character index in `str`
+            if charFreq1.value == charFreq2.value {
+                return str.firstIndex(of: charFreq1.key)! < str.firstIndex(of: charFreq2.key)!
+            }
+            return charFreq1.value > charFreq2.value
+        }
+        for (char, count) in sortedFreqs[0..<clampedK]{
             KFreq[char] = count
         }
 
@@ -174,8 +183,8 @@ extension String {
     func MostFreqKSimilarity(freq1: [Character: Int], freq2: [Character: Int]) -> Int {
         var similarity = 0
         for (char, count1) in freq1 {
-            if let count2 = freq2[char] {
-                similarity += count1 + count2
+            if freq2[char] != nil {
+                similarity += count1
             }
         }
         return similarity
@@ -184,7 +193,7 @@ extension String {
     /**
      Get most frequent K distance.
 
-     Reference <https://en.wikipedia.org/wiki/Most_frequent_k_characters>.
+     Reference <https://web.archive.org/web/20191117082524/https://en.wikipedia.org/wiki/Most_frequent_k_characters>.
 
      - parameters:
         - target: target string
