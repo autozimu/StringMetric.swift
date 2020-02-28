@@ -46,6 +46,14 @@ class StringMetricTests: XCTestCase {
         XCTAssertEqual("君子和而不同".distanceJaroWinkler(between: "小人同而不和"), 0.555, accuracy: 0.001)
     }
 
+    func testDistanceMostFrequentK() {
+        XCTAssertEqual("night".distanceMostFreqK(between: "nacht", K: 2), 9)
+        XCTAssertEqual("my".distanceMostFreqK(between: "a", K: 2), 10)
+        XCTAssertEqual("research".distanceMostFreqK(between: "resarch", K: 2), 6)
+        XCTAssertEqual("aaaaabbbb".distanceMostFreqK(between: "ababababa", K: 2), 1)
+        XCTAssertEqual("significant".distanceMostFreqK(between: "capabilities", K: 2), 7)
+    }
+
     static let allTests = [
         ("testDistanceLevenshtein", testDistanceLevenshtein),
         ("testDistanceDamerauLevenshtein", testDistanceDamerauLevenshtein),
