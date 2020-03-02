@@ -157,39 +157,6 @@ extension String {
         return zip(self, target).filter { $0 != $1 }.count
     }
 
-    func MostFreqKHashing(str: String, K: Int) -> [Character: Int] {
-        // If `str` is shorter than `K` characters, use `str.count`
-        let clampedK = min(K, str.count)
-        var freq: [Character: Int] = [:]
-        for char in str {
-            freq[char] = (freq[char] ?? 0) + 1
-        }
-
-        var KFreq: [Character: Int] = [:]
-        let sortedFreqs = freq.sorted { (charFreq1, charFreq2) -> Bool in
-            // If frequencies are equal, sort against character index in `str`
-            if charFreq1.value == charFreq2.value {
-                return str.firstIndex(of: charFreq1.key)! < str.firstIndex(of: charFreq2.key)!
-            }
-            return charFreq1.value > charFreq2.value
-        }
-        for (char, count) in sortedFreqs[0..<clampedK]{
-            KFreq[char] = count
-        }
-
-        return KFreq
-    }
-
-    func MostFreqKSimilarity(freq1: [Character: Int], freq2: [Character: Int]) -> Int {
-        var similarity = 0
-        for (char, count1) in freq1 {
-            if freq2[char] != nil {
-                similarity += count1
-            }
-        }
-        return similarity
-    }
-
     /**
      Get most frequent K distance.
 
@@ -201,10 +168,10 @@ extension String {
         - maxDistance: max distance (default to 10)
      - returns: most frequent K distance
      */
-    public func distanceMostFreqK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
-        return maxDistance - MostFreqKSimilarity(
-            freq1: MostFreqKHashing(str: self, K: K),
-            freq2: MostFreqKHashing(str: target, K: K))
+    public func distanceMostFrequentK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
+        return maxDistance - mostFrequentKSimilarity(
+            freq1: mostFrequentKHashing(str: self, K: K),
+            freq2: mostFrequentKHashing(str: target, K: K))
     }
 
 
@@ -268,5 +235,40 @@ extension String {
         let commonPrefixScalingFactor = 0.1
 
         return jaroSimilarity + commonPrefixCount * commonPrefixScalingFactor * (1 - jaroSimilarity)
+    }
+
+    // MARK: - Private methods
+
+    private func mostFrequentKHashing(str: String, K: Int) -> [Character: Int] {
+        // If `str` is shorter than `K` characters, use `str.count`
+        let clampedK = min(K, str.count)
+        var freq: [Character: Int] = [:]
+        for char in str {
+            freq[char] = (freq[char] ?? 0) + 1
+        }
+
+        var KFreq: [Character: Int] = [:]
+        let sortedFreqs = freq.sorted { (charFreq1, charFreq2) -> Bool in
+            // If frequencies are equal, sort against character index in `str`
+            if charFreq1.value == charFreq2.value {
+                return str.firstIndex(of: charFreq1.key)! < str.firstIndex(of: charFreq2.key)!
+            }
+            return charFreq1.value > charFreq2.value
+        }
+        for (char, count) in sortedFreqs[0..<clampedK]{
+            KFreq[char] = count
+        }
+
+        return KFreq
+    }
+
+    private func mostFrequentKSimilarity(freq1: [Character: Int], freq2: [Character: Int]) -> Int {
+        var similarity = 0
+        for (char, count1) in freq1 {
+            if freq2[char] != nil {
+                similarity += count1
+            }
+        }
+        return similarity
     }
 }
