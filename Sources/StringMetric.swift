@@ -255,7 +255,7 @@ extension String {
         }
 
         let sortedFrequencies = characterFrequencies.sorted { (characterFrequencies1, characterFrequencies2) -> Bool in
-            // If frequencies are equal, sort against character index in `str`
+            // If frequencies are equal, sort against character index in receiver
             if characterFrequencies1.value == characterFrequencies2.value {
                 return self.firstIndex(of: characterFrequencies1.key)! < self.firstIndex(of: characterFrequencies2.key)!
             }
