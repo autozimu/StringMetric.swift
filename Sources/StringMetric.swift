@@ -249,8 +249,7 @@ extension String {
     ///   - k: The maximum number of character-frequency pairs to include in the returned hash.
     /// - Returns: a `Dictionary` hash of the most frequent characters in the receiver.
     private func mostFrequentKHashing(_ k: Int) -> [Character: Int] {
-        var characterFrequencies: [Character: Int] = [:]
-        for character in self {
+        let characterFrequencies = self.reduce(into: [Character: Int]()) { characterFrequencies, character in
             characterFrequencies[character] = (characterFrequencies[character] ?? 0) + 1
         }
 
