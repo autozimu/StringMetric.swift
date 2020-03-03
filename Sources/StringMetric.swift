@@ -209,7 +209,7 @@ extension String {
     ///   - target: The target `String`.
     ///   - K: The number of most frequently occuring characters to use for the similarity comparison.
     ///   - maxDistance: The maximum distance limit (defaults to a value of 10 if not provided).
-    public func distanceMostFrequentK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
+    public func distanceMostFreqK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
         return maxDistance - mostFrequentKSimilarity(characterFrequencyHashOne: self.mostFrequentKHashing(K),
                                                      characterFrequencyHashTwo: target.mostFrequentKHashing(K))
     }

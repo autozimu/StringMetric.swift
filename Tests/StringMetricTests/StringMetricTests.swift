@@ -30,14 +30,14 @@ class StringMetricTests: XCTestCase {
         XCTAssertEqual("2173896".distanceHamming(between: "2233796"), 3)
     }
 
-    func testDistanceMostFrequentK() {
-        XCTAssertEqual("research".distanceMostFrequentK(between: "seeking", K: 2), 8)
-        XCTAssertEqual("night".distanceMostFrequentK(between: "nacht", K: 2), 9)
-        XCTAssertEqual("my".distanceMostFrequentK(between: "a", K: 2), 10)
-        XCTAssertEqual("research".distanceMostFrequentK(between: "resarch", K: 2), 6)
-        XCTAssertEqual("aaaaabbbb".distanceMostFrequentK(between: "ababababa", K: 2), 1)
-        XCTAssertEqual("significant".distanceMostFrequentK(between: "capabilities", K: 2), 7)
-        XCTAssertEqual("aabbbcc".distanceMostFrequentK(between: "bbccddee", K: 3), 5)
+    func testDistanceMostFreqK() {
+        XCTAssertEqual("research".distanceMostFreqK(between: "seeking", K: 2), 8)
+        XCTAssertEqual("night".distanceMostFreqK(between: "nacht", K: 2), 9)
+        XCTAssertEqual("my".distanceMostFreqK(between: "a", K: 2), 10)
+        XCTAssertEqual("research".distanceMostFreqK(between: "resarch", K: 2), 6)
+        XCTAssertEqual("aaaaabbbb".distanceMostFreqK(between: "ababababa", K: 2), 1)
+        XCTAssertEqual("significant".distanceMostFreqK(between: "capabilities", K: 2), 7)
+        XCTAssertEqual("aabbbcc".distanceMostFreqK(between: "bbccddee", K: 3), 5)
     }
 
     func testDistanceNormalizedMostFrequentK() {
@@ -66,7 +66,7 @@ class StringMetricTests: XCTestCase {
         ("testDistanceLevenshtein", testDistanceLevenshtein),
         ("testDistanceDamerauLevenshtein", testDistanceDamerauLevenshtein),
         ("testDistanceHamming", testDistanceHamming),
-        ("testDistanceMostFrequentK", testDistanceMostFrequentK),
+        ("testDistanceMostFreqK", testDistanceMostFreqK),
         ("testDistanceNormalizedMostFrequentK", testDistanceNormalizedMostFrequentK),
         ("testDistanceJaroWinkler", testDistanceJaroWinkler),
     ]
