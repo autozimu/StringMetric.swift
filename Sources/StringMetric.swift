@@ -234,6 +234,28 @@ extension String {
                                                      characterFrequencyHashTwo: target.mostFrequentKHashing(K))
     }
 
+    /// Get normalized most frequent K distance.
+    /// - Parameters:
+    ///   - target: The target `String`.
+    ///   - k: The number of most frequently occuring characters to use for the similarity comparison.
+    /// - Returns: The normalized most frequent K distance (i.e. a number in the range 0.0 - 1.0).
+    public func distanceNormalizedMostFrequentK(between target: String, k: Int) -> Double {
+        let selfMostFrequentKHash = self.mostFrequentKHashing(k)
+        let targetMostFrequentKHash = target.mostFrequentKHashing(k)
+        let commonCharacters = Set(selfMostFrequentKHash.keys).intersection(Set(targetMostFrequentKHash.keys))
+
+        // Return early if there are no common characters between the two hashes
+        guard commonCharacters.isEmpty == false else {
+            return 0.0
+        }
+
+        let similarity = commonCharacters.reduce(0) { characterCountSum, character -> Int in
+            characterCountSum + selfMostFrequentKHash[character]! + targetMostFrequentKHash[character]!
+        }
+
+        return Double(similarity) / Double(self.count + target.count)
+    }
+
     // MARK: - Private methods
 
     /// Get a hash of character-frequency pairs for the receiver.
