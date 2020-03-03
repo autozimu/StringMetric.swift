@@ -169,9 +169,8 @@ extension String {
      - returns: most frequent K distance
      */
     public func distanceMostFrequentK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
-        return maxDistance - mostFrequentKSimilarity(
-            freq1: mostFrequentKHashing(str: self, K: K),
-            freq2: mostFrequentKHashing(str: target, K: K))
+        return maxDistance - mostFrequentKSimilarity(characterFrequencyHashOne: self.mostFrequentKHashing(K),
+                                                     characterFrequencyHashTwo: target.mostFrequentKHashing(K))
     }
 
 
@@ -239,36 +238,48 @@ extension String {
 
     // MARK: - Private methods
 
-    private func mostFrequentKHashing(str: String, K: Int) -> [Character: Int] {
-        // If `str` is shorter than `K` characters, use `str.count`
-        let clampedK = min(K, str.count)
-        var freq: [Character: Int] = [:]
-        for char in str {
-            freq[char] = (freq[char] ?? 0) + 1
+    /// Get a hash of character-frequency pairs for the receiver.
+    ///
+    /// If two characters have the same frequency, then favour the one that occurs first in the receiver.
+    /// - Parameters:
+    ///   - k: The maximum number of character-frequency pairs to include in the returned hash.
+    /// - Returns: a `Dictionary` hash of the most frequent characters in the receiver.
+    private func mostFrequentKHashing(_ k: Int) -> [Character: Int] {
+        var characterFrequencies: [Character: Int] = [:]
+        for character in self {
+            characterFrequencies[character] = (characterFrequencies[character] ?? 0) + 1
         }
 
-        var KFreq: [Character: Int] = [:]
-        let sortedFreqs = freq.sorted { (charFreq1, charFreq2) -> Bool in
+        var kFrequencies: [Character: Int] = [:]
+        let sortedFrequencies = characterFrequencies.sorted { (characterFrequencies1, characterFrequencies2) -> Bool in
             // If frequencies are equal, sort against character index in `str`
-            if charFreq1.value == charFreq2.value {
-                return str.firstIndex(of: charFreq1.key)! < str.firstIndex(of: charFreq2.key)!
+            if characterFrequencies1.value == characterFrequencies2.value {
+                return self.firstIndex(of: characterFrequencies1.key)! < self.firstIndex(of: characterFrequencies2.key)!
             }
-            return charFreq1.value > charFreq2.value
+            return characterFrequencies1.value > characterFrequencies2.value
         }
-        for (char, count) in sortedFreqs[0..<clampedK]{
-            KFreq[char] = count
+        // If receiver is shorter than `K` characters, use `sortedFrequencies.count`
+        let clampedK = min(k, sortedFrequencies.count)
+
+        for (character, characterCount) in sortedFrequencies[0..<clampedK]{
+            kFrequencies[character] = characterCount
         }
 
-        return KFreq
+        return kFrequencies
     }
 
-    private func mostFrequentKSimilarity(freq1: [Character: Int], freq2: [Character: Int]) -> Int {
+    /// Get the similarity measure between two character-frequency `Dictionary` hashes.
+    /// - Parameters:
+    ///   - characterFrequencyHashOne: a `Dictionary` hash returned from `mostFrequentKHashing(_ k: Int)` for a particular `String`.
+    ///   - characterFrequencyHashTwo: a `Dictionary` hash returned from `mostFrequentKHashing(_ k: Int)` for a different `String`.
+    private func mostFrequentKSimilarity(characterFrequencyHashOne: [Character: Int], characterFrequencyHashTwo: [Character: Int]) -> Int {
         var similarity = 0
-        for (char, count1) in freq1 {
-            if freq2[char] != nil {
-                similarity += count1
+        for (character, characterCount) in characterFrequencyHashOne {
+            if characterFrequencyHashTwo[character] != nil {
+                similarity += characterCount
             }
         }
+
         return similarity
     }
 }
