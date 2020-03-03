@@ -1,24 +1,18 @@
 import Foundation
 
 extension String {
-    /**
-     Get distance between target. (alias of `distanceJaroWinkler`.)
-
-     - parameter target: target string
-     - returns: Jaro-Winkler distance
-     */
+    /// Get distance between target. (alias of `distanceJaroWinkler(between:)`.)
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Jaro-Winkler distance between the receiver and `target`.
     public func distance(between target: String) -> Double {
         return distanceJaroWinkler(between: target)
     }
 
-    /**
-     Get Damerau-Levenshtein distance between target.
-
-     Reference <https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#endnote_itman#Distance_with_adjacent_transpositions>
-
-     - parameter target: target string
-     - returns: Damerau-Levenshtein distance
-     */
+    /// Get Damerau-Levenshtein distance.
+    ///
+    /// Reference <https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#endnote_itman#Distance_with_adjacent_transpositions>
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Damerau-Levenshtein distance between the receiver and `target`.
     public func distanceDamerauLevenshtein(between target: String) -> Int {
         let selfCount = self.count
         let targetCount = target.count
@@ -83,33 +77,26 @@ extension String {
     }
 
 
-    /**
-     Get Hamming distance between self and target.
-
-     Note: only applicable when string lengths are equal.
-
-     Reference <https://en.wikipedia.org/wiki/Hamming_distance>.
-
-     - parameter target: target string
-     - returns: Hamming distance
-     */
+    /// Get Hamming distance.
+    ///
+    /// Note: Only applicable when string lengths are equal.
+    ///
+    /// Reference <https://en.wikipedia.org/wiki/Hamming_distance>.
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Hamming distance between the receiver and `target`.
     public func distanceHamming(between target: String) -> Int {
         assert(self.count == target.count)
 
         return zip(self, target).filter { $0 != $1 }.count
     }
 
-    /**
-    Get Jaro-Winkler distance.
-
-    (Score is normalized such that 0 equates to no similarity and 1 is an
-    exact match.)
-
-    <https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>
-
-    - parameter target: target string
-    - returns: Jaro-Winkler distance
-    */
+    /// Get Jaro-Winkler distance.
+    ///
+    /// (Score is normalized such that 0 equates to no similarity and 1 is an exact match).
+    ///
+    /// Reference <https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Jaro-Winkler distance between the receiver and `target`.
     public func distanceJaroWinkler(between target: String) -> Double {
         var stringOne = self
         var stringTwo = target
@@ -161,14 +148,11 @@ extension String {
         return jaroSimilarity + commonPrefixCount * commonPrefixScalingFactor * (1 - jaroSimilarity)
     }
 
-    /**
-     Get Levenshtein distance between target.
-
-     Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
-
-     - parameter target: target string
-     - returns: Levenshtein distance
-     */
+    /// Get the Levenshtein distance.
+    ///
+    /// Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Levenshtein distance between the receiver and `target`.
     public func distanceLevenshtein(between target: String) -> Int {
         let selfCount = self.count
         let targetCount = target.count
@@ -218,27 +202,27 @@ extension String {
         return v1[targetCount]
     }
 
-    /**
-     Get most frequent K distance.
-
-     Reference <https://web.archive.org/web/20191117082524/https://en.wikipedia.org/wiki/Most_frequent_k_characters>.
-
-     - parameters:
-        - target: target string
-        - K: number of characters
-        - maxDistance: max distance (default to 10)
-     - returns: most frequent K distance
-     */
+    /// Get most frequent K distance.
+    ///
+    /// Reference <https://web.archive.org/web/20191117082524/https://en.wikipedia.org/wiki/Most_frequent_k_characters>
+    /// - Parameters:
+    ///   - target: The target `String`.
+    ///   - K: The number of most frequently occuring characters to use for the similarity comparison.
+    ///   - maxDistance: The maximum distance limit (defaults to a value of 10 if not provided).
     public func distanceMostFrequentK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
         return maxDistance - mostFrequentKSimilarity(characterFrequencyHashOne: self.mostFrequentKHashing(K),
                                                      characterFrequencyHashTwo: target.mostFrequentKHashing(K))
     }
 
     /// Get normalized most frequent K distance.
+    ///
+    /// (Score is normalized such that 0 equates to no similarity and 1 is an exact match).
+    ///
+    /// Reference <https://www.semanticscholar.org/paper/A-high-performance-approach-to-string-similarity-K-Valdestilhas-Soru/2ce037c9b5d77972af6892c170396c82d883dab9>
     /// - Parameters:
     ///   - target: The target `String`.
     ///   - k: The number of most frequently occuring characters to use for the similarity comparison.
-    /// - Returns: The normalized most frequent K distance (i.e. a number in the range 0.0 - 1.0).
+    /// - Returns: The normalized most frequent K distance between the receiver and `target`.
     public func distanceNormalizedMostFrequentK(between target: String, k: Int) -> Double {
         let selfMostFrequentKHash = self.mostFrequentKHashing(k)
         let targetMostFrequentKHash = target.mostFrequentKHashing(k)
