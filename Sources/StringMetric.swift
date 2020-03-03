@@ -248,7 +248,6 @@ extension String {
             characterFrequencies[character] = (characterFrequencies[character] ?? 0) + 1
         }
 
-        var kFrequencies: [Character: Int] = [:]
         let sortedFrequencies = characterFrequencies.sorted { (characterFrequencies1, characterFrequencies2) -> Bool in
             // If frequencies are equal, sort against character index in `str`
             if characterFrequencies1.value == characterFrequencies2.value {
@@ -259,11 +258,7 @@ extension String {
         // If receiver is shorter than `K` characters, use `sortedFrequencies.count`
         let clampedK = min(k, sortedFrequencies.count)
 
-        for (character, characterCount) in sortedFrequencies[0..<clampedK]{
-            kFrequencies[character] = characterCount
-        }
-
-        return kFrequencies
+        return sortedFrequencies[0..<clampedK].reduce(into: [:]) { $0[$1.0] = $1.1 }
     }
 
     /// Get the similarity measure between two character-frequency `Dictionary` hashes.
