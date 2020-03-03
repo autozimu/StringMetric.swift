@@ -12,64 +12,6 @@ extension String {
     }
 
     /**
-     Get Levenshtein distance between target.
-
-     Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
-
-     - parameter target: target string
-     - returns: Levenshtein distance
-     */
-    public func distanceLevenshtein(between target: String) -> Int {
-        let selfCount = self.count
-        let targetCount = target.count
-
-        if self == target {
-            return 0
-        }
-        if selfCount == 0 {
-            return targetCount
-        }
-        if targetCount == 0 {
-            return selfCount
-        }
-
-        // The previous row of distances
-        var v0 = [Int](repeating: 0, count: targetCount + 1)
-        // Current row of distances.
-        var v1 = [Int](repeating: 0, count: targetCount + 1)
-        // Initialize v0.
-        // Edit distance for empty self.
-        for i in 0..<v0.count {
-            v0[i] = i
-        }
-
-        for (i, selfCharacter) in self.enumerated() {
-            // Calculate v1 (current row distances) from previous row v0
-
-            // Edit distance is delete (i + 1) chars from self to match empty t.
-            v1[0] = i + 1
-
-            // Use formula to fill rest of the row.
-            for (j, targetCharacter) in target.enumerated() {
-                let cost = selfCharacter == targetCharacter ? 0 : 1
-                v1[j + 1] = Swift.min(
-                    v1[j] + 1,
-                    v0[j + 1] + 1,
-                    v0[j] + cost
-                )
-            }
-
-            // Copy current row to previous row for next iteration.
-            for j in 0..<v0.count {
-                v0[j] = v1[j]
-            }
-        }
-
-        return v1[targetCount]
-    }
-
-
-    /**
      Get Damerau-Levenshtein distance between target.
 
      Reference <https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#endnote_itman#Distance_with_adjacent_transpositions>
@@ -158,23 +100,6 @@ extension String {
     }
 
     /**
-     Get most frequent K distance.
-
-     Reference <https://web.archive.org/web/20191117082524/https://en.wikipedia.org/wiki/Most_frequent_k_characters>.
-
-     - parameters:
-        - target: target string
-        - K: number of characters
-        - maxDistance: max distance (default to 10)
-     - returns: most frequent K distance
-     */
-    public func distanceMostFrequentK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
-        return maxDistance - mostFrequentKSimilarity(characterFrequencyHashOne: self.mostFrequentKHashing(K),
-                                                     characterFrequencyHashTwo: target.mostFrequentKHashing(K))
-    }
-
-
-    /**
     Get Jaro-Winkler distance.
 
     (Score is normalized such that 0 equates to no similarity and 1 is an
@@ -234,6 +159,79 @@ extension String {
         let commonPrefixScalingFactor = 0.1
 
         return jaroSimilarity + commonPrefixCount * commonPrefixScalingFactor * (1 - jaroSimilarity)
+    }
+
+    /**
+     Get Levenshtein distance between target.
+
+     Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
+
+     - parameter target: target string
+     - returns: Levenshtein distance
+     */
+    public func distanceLevenshtein(between target: String) -> Int {
+        let selfCount = self.count
+        let targetCount = target.count
+
+        if self == target {
+            return 0
+        }
+        if selfCount == 0 {
+            return targetCount
+        }
+        if targetCount == 0 {
+            return selfCount
+        }
+
+        // The previous row of distances
+        var v0 = [Int](repeating: 0, count: targetCount + 1)
+        // Current row of distances.
+        var v1 = [Int](repeating: 0, count: targetCount + 1)
+        // Initialize v0.
+        // Edit distance for empty self.
+        for i in 0..<v0.count {
+            v0[i] = i
+        }
+
+        for (i, selfCharacter) in self.enumerated() {
+            // Calculate v1 (current row distances) from previous row v0
+
+            // Edit distance is delete (i + 1) chars from self to match empty t.
+            v1[0] = i + 1
+
+            // Use formula to fill rest of the row.
+            for (j, targetCharacter) in target.enumerated() {
+                let cost = selfCharacter == targetCharacter ? 0 : 1
+                v1[j + 1] = Swift.min(
+                    v1[j] + 1,
+                    v0[j + 1] + 1,
+                    v0[j] + cost
+                )
+            }
+
+            // Copy current row to previous row for next iteration.
+            for j in 0..<v0.count {
+                v0[j] = v1[j]
+            }
+        }
+
+        return v1[targetCount]
+    }
+
+    /**
+     Get most frequent K distance.
+
+     Reference <https://web.archive.org/web/20191117082524/https://en.wikipedia.org/wiki/Most_frequent_k_characters>.
+
+     - parameters:
+        - target: target string
+        - K: number of characters
+        - maxDistance: max distance (default to 10)
+     - returns: most frequent K distance
+     */
+    public func distanceMostFrequentK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
+        return maxDistance - mostFrequentKSimilarity(characterFrequencyHashOne: self.mostFrequentKHashing(K),
+                                                     characterFrequencyHashTwo: target.mostFrequentKHashing(K))
     }
 
     // MARK: - Private methods
