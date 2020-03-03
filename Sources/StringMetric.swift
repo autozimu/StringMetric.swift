@@ -273,13 +273,16 @@ extension String {
     ///   - characterFrequencyHashOne: a `Dictionary` hash returned from `mostFrequentKHashing(_ k: Int)` for a particular `String`.
     ///   - characterFrequencyHashTwo: a `Dictionary` hash returned from `mostFrequentKHashing(_ k: Int)` for a different `String`.
     private func mostFrequentKSimilarity(characterFrequencyHashOne: [Character: Int], characterFrequencyHashTwo: [Character: Int]) -> Int {
-        var similarity = 0
-        for (character, characterCount) in characterFrequencyHashOne {
-            if characterFrequencyHashTwo[character] != nil {
-                similarity += characterCount
-            }
+
+        let commonCharacters = Set(characterFrequencyHashOne.keys).intersection(Set(characterFrequencyHashTwo.keys))
+
+        // Return early if there are no common characters between the two hashes
+        guard commonCharacters.isEmpty == false else {
+            return 0
         }
 
-        return similarity
+        return commonCharacters.reduce(0) { characterCountSum, character -> Int in
+            characterCountSum + characterFrequencyHashOne[character]!
+        }
     }
 }
