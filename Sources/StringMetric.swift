@@ -264,7 +264,9 @@ extension String {
         // If receiver is shorter than `K` characters, use `sortedFrequencies.count`
         let clampedK = min(k, sortedFrequencies.count)
 
-        return sortedFrequencies[0..<clampedK].reduce(into: [:]) { $0[$1.0] = $1.1 }
+        return sortedFrequencies[0..<clampedK].reduce(into: [Character: Int]()) { mostFrequentKHash, characterFrequencyPair in
+            mostFrequentKHash[characterFrequencyPair.key] = characterFrequencyPair.value
+        }
     }
 
     /// Get the similarity measure between two character-frequency `Dictionary` hashes.
