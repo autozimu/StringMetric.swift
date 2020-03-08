@@ -1,82 +1,18 @@
 import Foundation
 
 extension String {
-    /**
-     Get distance between target. (alias of `distanceJaroWinkler`.)
-
-     - parameter target: target string
-     - returns: Jaro-Winkler distance
-     */
+    /// Get distance between target. (alias of `distanceJaroWinkler(between:)`.)
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Jaro-Winkler distance between the receiver and `target`.
     public func distance(between target: String) -> Double {
         return distanceJaroWinkler(between: target)
     }
 
-    /**
-     Get Levenshtein distance between target.
-
-     Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>.
-
-     - parameter target: target string
-     - returns: Levenshtein distance
-     */
-    public func distanceLevenshtein(between target: String) -> Int {
-        let selfCount = self.count
-        let targetCount = target.count
-
-        if self == target {
-            return 0
-        }
-        if selfCount == 0 {
-            return targetCount
-        }
-        if targetCount == 0 {
-            return selfCount
-        }
-
-        // The previous row of distances
-        var v0 = [Int](repeating: 0, count: targetCount + 1)
-        // Current row of distances.
-        var v1 = [Int](repeating: 0, count: targetCount + 1)
-        // Initialize v0.
-        // Edit distance for empty self.
-        for i in 0..<v0.count {
-            v0[i] = i
-        }
-
-        for (i, selfCharacter) in self.enumerated() {
-            // Calculate v1 (current row distances) from previous row v0
-
-            // Edit distance is delete (i + 1) chars from self to match empty t.
-            v1[0] = i + 1
-
-            // Use formula to fill rest of the row.
-            for (j, targetCharacter) in target.enumerated() {
-                let cost = selfCharacter == targetCharacter ? 0 : 1
-                v1[j + 1] = Swift.min(
-                    v1[j] + 1,
-                    v0[j + 1] + 1,
-                    v0[j] + cost
-                )
-            }
-
-            // Copy current row to previous row for next iteration.
-            for j in 0..<v0.count {
-                v0[j] = v1[j]
-            }
-        }
-
-        return v1[targetCount]
-    }
-
-
-    /**
-     Get Damerau-Levenshtein distance between target.
-
-     Reference <https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#endnote_itman#Distance_with_adjacent_transpositions>
-
-     - parameter target: target string
-     - returns: Damerau-Levenshtein distance
-     */
+    /// Get Damerau-Levenshtein distance.
+    ///
+    /// Reference <https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance#endnote_itman#Distance_with_adjacent_transpositions>
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Damerau-Levenshtein distance between the receiver and `target`.
     public func distanceDamerauLevenshtein(between target: String) -> Int {
         let selfCount = self.count
         let targetCount = target.count
@@ -141,84 +77,26 @@ extension String {
     }
 
 
-    /**
-     Get Hamming distance between self and target.
-
-     Note: only applicable when string lengths are equal.
-
-     Reference <https://en.wikipedia.org/wiki/Hamming_distance>.
-
-     - parameter target: target string
-     - returns: Hamming distance
-     */
+    /// Get Hamming distance.
+    ///
+    /// Note: Only applicable when string lengths are equal.
+    ///
+    /// Reference <https://en.wikipedia.org/wiki/Hamming_distance>.
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Hamming distance between the receiver and `target`.
     public func distanceHamming(between target: String) -> Int {
         assert(self.count == target.count)
 
         return zip(self, target).filter { $0 != $1 }.count
     }
 
-    func MostFreqKHashing(str: String, K: Int) -> [Character: Int] {
-        // If `str` is shorter than `K` characters, use `str.count`
-        let clampedK = min(K, str.count)
-        var freq: [Character: Int] = [:]
-        for char in str {
-            freq[char] = (freq[char] ?? 0) + 1
-        }
-
-        var KFreq: [Character: Int] = [:]
-        let sortedFreqs = freq.sorted { (charFreq1, charFreq2) -> Bool in
-            // If frequencies are equal, sort against character index in `str`
-            if charFreq1.value == charFreq2.value {
-                return str.firstIndex(of: charFreq1.key)! < str.firstIndex(of: charFreq2.key)!
-            }
-            return charFreq1.value > charFreq2.value
-        }
-        for (char, count) in sortedFreqs[0..<clampedK]{
-            KFreq[char] = count
-        }
-
-        return KFreq
-    }
-
-    func MostFreqKSimilarity(freq1: [Character: Int], freq2: [Character: Int]) -> Int {
-        var similarity = 0
-        for (char, count1) in freq1 {
-            if freq2[char] != nil {
-                similarity += count1
-            }
-        }
-        return similarity
-    }
-
-    /**
-     Get most frequent K distance.
-
-     Reference <https://web.archive.org/web/20191117082524/https://en.wikipedia.org/wiki/Most_frequent_k_characters>.
-
-     - parameters:
-        - target: target string
-        - K: number of characters
-        - maxDistance: max distance (default to 10)
-     - returns: most frequent K distance
-     */
-    public func distanceMostFreqK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
-        return maxDistance - MostFreqKSimilarity(
-            freq1: MostFreqKHashing(str: self, K: K),
-            freq2: MostFreqKHashing(str: target, K: K))
-    }
-
-
-    /**
-    Get Jaro-Winkler distance.
-
-    (Score is normalized such that 0 equates to no similarity and 1 is an
-    exact match.)
-
-    <https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>
-
-    - parameter target: target string
-    - returns: Jaro-Winkler distance
-    */
+    /// Get Jaro-Winkler distance.
+    ///
+    /// (Score is normalized such that 0 equates to no similarity and 1 is an exact match).
+    ///
+    /// Reference <https://en.wikipedia.org/wiki/Jaro%E2%80%93Winkler_distance>
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Jaro-Winkler distance between the receiver and `target`.
     public func distanceJaroWinkler(between target: String) -> Double {
         var stringOne = self
         var stringTwo = target
@@ -268,5 +146,143 @@ extension String {
         let commonPrefixScalingFactor = 0.1
 
         return jaroSimilarity + commonPrefixCount * commonPrefixScalingFactor * (1 - jaroSimilarity)
+    }
+
+    /// Get the Levenshtein distance.
+    ///
+    /// Reference <https://en.wikipedia.org/wiki/Levenshtein_distance#Iterative_with_two_matrix_rows>
+    /// - Parameter target: The target `String`.
+    /// - Returns: The Levenshtein distance between the receiver and `target`.
+    public func distanceLevenshtein(between target: String) -> Int {
+        let selfCount = self.count
+        let targetCount = target.count
+
+        if self == target {
+            return 0
+        }
+        if selfCount == 0 {
+            return targetCount
+        }
+        if targetCount == 0 {
+            return selfCount
+        }
+
+        // The previous row of distances
+        var v0 = [Int](repeating: 0, count: targetCount + 1)
+        // Current row of distances.
+        var v1 = [Int](repeating: 0, count: targetCount + 1)
+        // Initialize v0.
+        // Edit distance for empty self.
+        for i in 0..<v0.count {
+            v0[i] = i
+        }
+
+        for (i, selfCharacter) in self.enumerated() {
+            // Calculate v1 (current row distances) from previous row v0
+
+            // Edit distance is delete (i + 1) chars from self to match empty t.
+            v1[0] = i + 1
+
+            // Use formula to fill rest of the row.
+            for (j, targetCharacter) in target.enumerated() {
+                let cost = selfCharacter == targetCharacter ? 0 : 1
+                v1[j + 1] = Swift.min(
+                    v1[j] + 1,
+                    v0[j + 1] + 1,
+                    v0[j] + cost
+                )
+            }
+
+            // Copy current row to previous row for next iteration.
+            for j in 0..<v0.count {
+                v0[j] = v1[j]
+            }
+        }
+
+        return v1[targetCount]
+    }
+
+    /// Get most frequent K distance.
+    ///
+    /// Reference <https://web.archive.org/web/20191117082524/https://en.wikipedia.org/wiki/Most_frequent_k_characters>
+    /// - Parameters:
+    ///   - target: The target `String`.
+    ///   - K: The number of most frequently occuring characters to use for the similarity comparison.
+    ///   - maxDistance: The maximum distance limit (defaults to a value of 10 if not provided).
+    public func distanceMostFreqK(between target: String, K: Int, maxDistance: Int = 10) -> Int {
+        return maxDistance - mostFrequentKSimilarity(characterFrequencyHashOne: self.mostFrequentKHashing(K),
+                                                     characterFrequencyHashTwo: target.mostFrequentKHashing(K))
+    }
+
+    /// Get normalized most frequent K distance.
+    ///
+    /// (Score is normalized such that 0 equates to no similarity and 1 is an exact match).
+    ///
+    /// Reference <https://www.semanticscholar.org/paper/A-high-performance-approach-to-string-similarity-K-Valdestilhas-Soru/2ce037c9b5d77972af6892c170396c82d883dab9>
+    /// - Parameters:
+    ///   - target: The target `String`.
+    ///   - k: The number of most frequently occuring characters to use for the similarity comparison.
+    /// - Returns: The normalized most frequent K distance between the receiver and `target`.
+    public func distanceNormalizedMostFrequentK(between target: String, k: Int) -> Double {
+        let selfMostFrequentKHash = self.mostFrequentKHashing(k)
+        let targetMostFrequentKHash = target.mostFrequentKHashing(k)
+        let commonCharacters = Set(selfMostFrequentKHash.keys).intersection(Set(targetMostFrequentKHash.keys))
+
+        // Return early if there are no common characters between the two hashes
+        guard commonCharacters.isEmpty == false else {
+            return 0.0
+        }
+
+        let similarity = commonCharacters.reduce(0) { characterCountSum, character -> Int in
+            characterCountSum + selfMostFrequentKHash[character]! + targetMostFrequentKHash[character]!
+        }
+
+        return Double(similarity) / Double(self.count + target.count)
+    }
+
+    // MARK: - Private methods
+
+    /// Get a hash of character-frequency pairs for the receiver.
+    ///
+    /// If two characters have the same frequency, then favour the one that occurs first in the receiver.
+    /// - Parameters:
+    ///   - k: The maximum number of character-frequency pairs to include in the returned hash.
+    /// - Returns: a `Dictionary` hash of the most frequent characters in the receiver.
+    private func mostFrequentKHashing(_ k: Int) -> [Character: Int] {
+        let characterFrequencies = self.reduce(into: [Character: Int]()) { characterFrequencies, character in
+            characterFrequencies[character] = (characterFrequencies[character] ?? 0) + 1
+        }
+
+        let sortedFrequencies = characterFrequencies.sorted { (characterFrequencies1, characterFrequencies2) -> Bool in
+            // If frequencies are equal, sort against character index in receiver
+            if characterFrequencies1.value == characterFrequencies2.value {
+                return self.firstIndex(of: characterFrequencies1.key)! < self.firstIndex(of: characterFrequencies2.key)!
+            }
+            return characterFrequencies1.value > characterFrequencies2.value
+        }
+        // If receiver is shorter than `K` characters, use `sortedFrequencies.count`
+        let clampedK = min(k, sortedFrequencies.count)
+
+        return sortedFrequencies[0..<clampedK].reduce(into: [Character: Int]()) { mostFrequentKHash, characterFrequencyPair in
+            mostFrequentKHash[characterFrequencyPair.key] = characterFrequencyPair.value
+        }
+    }
+
+    /// Get the similarity measure between two character-frequency `Dictionary` hashes.
+    /// - Parameters:
+    ///   - characterFrequencyHashOne: a `Dictionary` hash returned from `mostFrequentKHashing(_ k: Int)` for a particular `String`.
+    ///   - characterFrequencyHashTwo: a `Dictionary` hash returned from `mostFrequentKHashing(_ k: Int)` for a different `String`.
+    private func mostFrequentKSimilarity(characterFrequencyHashOne: [Character: Int], characterFrequencyHashTwo: [Character: Int]) -> Int {
+
+        let commonCharacters = Set(characterFrequencyHashOne.keys).intersection(Set(characterFrequencyHashTwo.keys))
+
+        // Return early if there are no common characters between the two hashes
+        guard commonCharacters.isEmpty == false else {
+            return 0
+        }
+
+        return commonCharacters.reduce(0) { characterCountSum, character -> Int in
+            characterCountSum + characterFrequencyHashOne[character]!
+        }
     }
 }

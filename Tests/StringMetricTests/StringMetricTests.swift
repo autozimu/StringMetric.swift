@@ -37,6 +37,17 @@ class StringMetricTests: XCTestCase {
         XCTAssertEqual("research".distanceMostFreqK(between: "resarch", K: 2), 6)
         XCTAssertEqual("aaaaabbbb".distanceMostFreqK(between: "ababababa", K: 2), 1)
         XCTAssertEqual("significant".distanceMostFreqK(between: "capabilities", K: 2), 7)
+        XCTAssertEqual("aabbbcc".distanceMostFreqK(between: "bbccddee", K: 3), 5)
+    }
+
+    func testDistanceNormalizedMostFrequentK() {
+        XCTAssertEqual("research".distanceNormalizedMostFrequentK(between: "seeking", k: 2), 0.2666, accuracy: 0.001)
+        XCTAssertEqual("night".distanceNormalizedMostFrequentK(between: "nacht", k: 2), 0.2)
+        XCTAssertEqual("my".distanceNormalizedMostFrequentK(between: "a", k: 2), 0.0)
+        XCTAssertEqual("research".distanceNormalizedMostFrequentK(between: "resarch", k: 2), 0.4666, accuracy: 0.001)
+        XCTAssertEqual("aaaaabbbb".distanceNormalizedMostFrequentK(between: "ababababa", k: 2), 1.0)
+        XCTAssertEqual("significant".distanceNormalizedMostFrequentK(between: "capabilities", k: 2), 0.2609, accuracy: 0.001)
+        XCTAssertEqual("aabbbcc".distanceNormalizedMostFrequentK(between: "bbccddee", k: 3), 0.6)
     }
 
     func testDistanceJaroWinkler() {
@@ -56,6 +67,7 @@ class StringMetricTests: XCTestCase {
         ("testDistanceDamerauLevenshtein", testDistanceDamerauLevenshtein),
         ("testDistanceHamming", testDistanceHamming),
         ("testDistanceMostFreqK", testDistanceMostFreqK),
+        ("testDistanceNormalizedMostFrequentK", testDistanceNormalizedMostFrequentK),
         ("testDistanceJaroWinkler", testDistanceJaroWinkler),
     ]
 }
